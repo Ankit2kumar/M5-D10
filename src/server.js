@@ -6,25 +6,25 @@ import moviesRouter from './netflix/Movies/index.js';
 import filesRouter from './files/index.js';
 
 const server = express();
-const port = 3001;
+const port = process.env.PORT;
 
-// const whitelist = [
-// 	process.env.FRONTEND_DEV_URL,
-// 	process.env.FRONTEND_CLOUD_URL,
-// ];
-// const corsOptions = {
-// 	origin: function (origin, next) {
-// 		console.log('ORIGIN ', origin);
-// 		if (whitelist.indexOf(origin) !== -1) {
-// 			// origin allowed
-// 			next(null, true);
-// 		} else {
-// 			// origin not allowed
-// 			next(new Error('CORS TROUBLES!!!!!'));
-// 		}
-// 	},
-// };
-server.use(cors());
+const whitelist = [
+	process.env.FRONTEND_DEV_URL,
+	process.env.FRONTEND_CLOUD_URL,
+];
+const corsOptions = {
+	origin: function (origin, next) {
+		console.log('ORIGIN ', origin);
+		if (whitelist.indexOf(origin) !== -1) {
+			// origin allowed
+			next(null, true);
+		} else {
+			// origin not allowed
+			next(new Error('CORS TROUBLES!!!!!'));
+		}
+	},
+};
+server.use(cors(corsOptions));
 
 server.use(express.json());
 
